@@ -8,6 +8,47 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 <body>
+   <style>
+    body {
+      font-family: "Segoe UI", sans-serif;
+      background: #f9fafb;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    h1 {
+      color: #2c3e50;
+    }
+
+    #panic-btn {
+      background-color: #e74c3c;
+      color: white;
+      padding: 1rem 2rem;
+      border: none;
+      border-radius: 12px;
+      font-size: 1.5rem;
+      font-weight: bold;
+      box-shadow: 0 4px 15px rgba(231, 76, 60, 0.4);
+      cursor: pointer;
+      transition: 0.2s ease-in-out;
+    }
+
+    #panic-btn:hover {
+      background-color: #c0392b;
+      transform: scale(1.05);
+    }
+
+    #status {
+      margin-top: 1rem;
+      color: #34495e;
+      font-weight: 500;
+    }
+  </style>
   <div id="map" style="height: 500px; width: 100%;"></div>
   <button id="panicBtn" style="
   position: fixed;
