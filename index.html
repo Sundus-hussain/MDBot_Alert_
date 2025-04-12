@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Leaflet Map with Geolocation</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+<body>
+  <div id="map" style="height: 500px; width: 100%;"></div>
+  <button id="panicBtn" style="
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: red;
+  color: white;
+  padding: 15px;
+  border-radius: 50%;
+  font-weight: bold;
+  border: none;
+  z-index: 1000;
+">
+  🚨
+</button>
+
+
+  <script>
+    const map = L.map('map').setView([0, 0], 13);
+
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors',
+    }).addTo(map);
+
+    const marker = L.marker([0, 0]).addTo(map);
+
+    if ("geolocation" in navigator) {
+      navigator.geolocation.watchPosition(
+        function (position) {
+          const lat = position.coords.latitude;
+          const lng = position.coords.longitude;
+
+          map.setView([lat, lng], 16);
+          marker.setLatLng([lat, lng]).bindPopup("You are here").openPopup();
+
+          // Test logging location
+          console.log("Location:", lat, lng);
+        },
+        function (error) {
+          console.error("Error getting location:", error.message);
+          alert("Please allow location access.");
+        },
+        { enableHighAccuracy: true }
+      );
+    } else {
+      alert("Geolocation is not supported by this browser.");
+    }
+
+    //js for adding and alerting a panic button
+
+    document.getElementById("panicBtn").addEventListener("click", () => {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(async (position) => {
+      const lat = position.coords.latitude;
+      const lng = position.coords.longitude;
+
+      const response = await fetch("https://wos927xsmf.execute-api.eu-north-1.amazonaws.com/prod/SendEmergencyAlert", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          childId: "child_001",
+          lat,
+          lng,
+          timestamp: new Date().toISOString(),
+        }),
+      });
+
+      if (response.ok) {
+        alert("Emergency alert sent to parent!");
+      } else {
+        alert("Failed to send alert. Try again.");
+      }
+    });
+  } else {
+    alert("Geolocation not supported.");
+  }
+});
+
+  </script>
+</body>
+</html>
