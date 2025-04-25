@@ -3,6 +3,7 @@
 CareNest is an AI-powered child safety app designed to track a child’s location in real-time, detect unsafe areas, and send emergency alerts to parents. Built with AWS, Leaflet JS, and Node.js, CareNest uses live data to ensure children are safe when they're outside.
 
 watch the demo here https://www.youtube.com/shorts/fqpGo-vA10I?feature=share
+ https://drive.google.com/file/d/1lycyOfxHrZc3pDfJy6-BUcc0mY0IEdJE/view
 ---
 
 ## Features
