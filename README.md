@@ -40,3 +40,91 @@ watch the demo here https://www.youtube.com/shorts/fqpGo-vA10I?feature=share
 ## Getting Started
 
 # Open index.html in your browser
+
+##for future reference
+CareNest AWS Infrastructure Documentation (Backup for Rebuilding)
+
+1. Frontend Setup
+
+Tech Stack: HTML, JavaScript, Leaflet.js
+
+Live Features:
+
+Live Location Tracking using navigator.geolocation and Leaflet.js
+
+Panic Button that sends location data to backend (Lambda via API Gateway)
+
+2. Lambda Function
+
+Function Name: SendEmergencyAlert
+
+Region: eu-north-1
+
+Trigger:
+
+API Gateway: MDBotPanicAPI
+
+Trigger ARN: arn:aws:execute-api:eu-north-1:222634403556:wos927xsmf/*/*/SendEmergencyAlert
+
+Payload Sent:
+
+{
+  "childId": "child_001",
+  "lat": <latitude>,
+  "lng": <longitude>,
+  "timestamp": "<ISO timestamp>"
+}
+
+Status: Trigger removed to prevent billing.
+
+3. API Gateway (HTTP)
+
+API Name: MDBotPanicAPI
+
+API ID: wos927xsmf
+
+Stage: prod
+
+Route: /SendEmergencyAlert
+
+Method: ANY
+
+Authorization: NONE
+
+Endpoint: https://wos927xsmf.execute-api.eu-north-1.amazonaws.com/prod/SendEmergencyAlert
+
+CORS Enabled: Yes
+
+Status: Default endpoint disabled, auto-deploy disabled.
+
+4. SNS (Optional Notification Service)
+
+Status: Active (can be deleted to avoid charges)
+
+Use Case: Sends SMS/Email alerts to parent/guardian.
+
+Action: Will need to be recreated during rebuild.
+
+5. Hosting
+
+Platform: GitHub Pages
+
+Repository: https://github.com/Sundus-hussain/Mk.Dk_Bros
+
+Frontend File: carenest.html
+
+6. To Rebuild Later
+
+When ready to rebuild:
+
+Recreate Lambda with same logic (emergency alert receiver)
+
+Recreate HTTP API Gateway, map /SendEmergencyAlert route to Lambda
+
+Enable CORS
+
+Optionally reconfigure SNS for alert delivery
+
+Test with panic button from frontend
+
+You can return to this doc anytime to recreate or modify your infrastructure safely.
